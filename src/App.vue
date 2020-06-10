@@ -1,32 +1,51 @@
-<template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view />
+<template class="form">
+  <div id="app" class="px-20 py-16">
+    <h1 class="font-bold text-2xl">Sign up</h1>
+    <ValidationObserver v-slot="{ passes }">
+      <form @submit.prevent="passes(onSubmit)">
+        <TextInput rules="required" label="First Name"/>
+        <TextInput rules="required" label="Last Name"/>
+        <TextInput rules="required|email" label="Email Address" name="email"/>
+        <TextInput rules="required|min:6|confirmed:pass" label="Password" type="password"/>
+        <TextInput rules="required" vid="pass" label="Password Confirmation" type="password"/>
+        
+        <button class="btn text-brand-gray mt-10">Submit</button>
+      </form>
+    </ValidationObserver>
   </div>
 </template>
 
-<style>
+<script>
+import { ValidationObserver } from "vee-validate";
+import TextInput from "./components/TextInput";
+
+export default {
+  name: "App",
+  components: {
+    TextInput,
+    ValidationObserver
+  },
+  methods: {
+    onSubmit() {
+      alert("Form Submitted!");
+    }
+  }
+};
+</script>
+
+<style  scoped>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  margin-left: 500px;
+}
+.btn {
+  border-radius: 999999px;
+  padding: 0.75rem 3rem;
   text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
+  background: transparent;
+  cursor: pointer;
+  width: fit-content;
+  font-weight: 700;
+  position: relative;
+  outline: none;
 }
 </style>
